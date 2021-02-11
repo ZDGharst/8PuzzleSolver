@@ -1,3 +1,6 @@
+#ifndef SOLVER_H
+#define SOLVER_H
+
 #include <set>
 #include <queue>
 #include <string>
@@ -12,7 +15,9 @@ public:
 
     Solver(Puzzle& start);
 
+    bool HasSolution();
     void ExpandNode();
     void SolvePuzzle();
-    bool HasSolution();
 };
+
+#endif // SOLVER_H
