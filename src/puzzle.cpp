@@ -6,54 +6,46 @@ Puzzle::Puzzle(std::string s, int g) {
     h = TotalManhattanDistance();
 }
 
-/* increase or decrease by 1 (move right/left) until the difference between them is
-/  divisible by three then increase or decrease by 3 (move down/up)
-/
-/  3 1 2
-/  4 6 5
-/  8 7 E
-/
-/  3 is at pos 0 but should be at pos 2
-/  n is at pos i but should be at pos (n - 1)
-*/
 int Puzzle::TotalManhattanDistance() {
-    int piece, position;
     int sum = 0;
 
     for(int i = 0; i < 9; i++) {
-        if(state[i] == 'E') {
-            continue;
-        }
-
-        piece = state[i] - 48; // convert from ASCII char to integer equivalent
-        position = i + 1;
-
-        while(piece != position) {
-            if((piece - position) % 3 == 0) { // move down
-                if(position > piece) position -= 3;
-                else position += 3;
-                sum++;
-            }
-            else { // move right
-                if(position > piece) position--;
-                else position++;
-                sum++;
-            }
-
-            if(position > 100) break;
-        }
+        sum += SingleManhattanDistance(i);
     }
 
     return sum;
     }
 
+/* Calculate the manhattan distance of a single position in the puzzle data array (from 0 to 8) */
 int Puzzle::SingleManhattanDistance(int p) {
-    for(int i = 1; i < 9; i++) {
-
+    if(state[p] == 'E') {
+        return 0;
     }
-    return 0;
+
+    int sum = 0;
+    int piece = state[p] - 48; // Convert from ASCII char to integer equivalent
+    int position = p + 1;
+
+    while(piece != position) {
+        /* Move up or down */
+        if((piece - position) % 3 == 0) {
+            if(position > piece) position -= 3;
+            else position += 3;
+            sum++;
+        }
+
+        /* Move left or right */
+        else {
+            if(position > piece) position--;
+            else position++;
+            sum++;
+        }
+    }
+
+    return sum;
 }
 
+/* Find where a piece is in the puzzle data array by its value */
 int Puzzle::FindPiece(char p) {
     for(int i = 0; i < 9; i++) {
         if(state[i] == p) {
