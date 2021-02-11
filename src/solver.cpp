@@ -1,12 +1,12 @@
 #include "solver.h"
 
 Solver::Solver(Puzzle* start) {
-    Node nodeStart(start, NULL);
+    Node* nodeStart = new Node(start, NULL);
     unvisited.push(nodeStart);
 }
 
 bool Solver::HasSolution() {
-    std::string data = unvisited.top().state->state;
+    std::string data = unvisited.top()->state->state;
     int inversions = 0;
 
     for(int i = 0; i < 9; i++)
@@ -20,9 +20,9 @@ bool Solver::HasSolution() {
 }
 
 void Solver::ExpandNode() {
-    Node parentNode = unvisited.top();
-    std::string data = parentNode.state->state;
-    int positionOfEmpty = parentNode.state->FindPiecePosition('E');
+    Node* parentNode = unvisited.top();
+    std::string data = parentNode->state->state;
+    int positionOfEmpty = parentNode->state->FindPiecePosition('E');
 
     /* Remove from queue and insert into visited set. */
     unvisited.pop();
@@ -34,8 +34,8 @@ void Solver::ExpandNode() {
         tempData[positionOfEmpty] = tempData[positionOfEmpty - 1];
         tempData[positionOfEmpty - 1] = 'E';
         
-        Puzzle* p = new Puzzle("4E2516738", parentNode.state->g + 1);
-        Node childNode(p, NULL);
+        Puzzle* p = new Puzzle(tempData, parentNode->state->g + 1);
+        Node* childNode = new Node(p, parentNode);
         unvisited.push(childNode);
         tempData = data;
     }
@@ -44,14 +44,21 @@ void Solver::ExpandNode() {
     if(positionOfEmpty % 3 != 2) {
         tempData[positionOfEmpty] = tempData[positionOfEmpty + 1];
         tempData[positionOfEmpty + 1] = 'E';
-
+        
+        Puzzle* p = new Puzzle(tempData, parentNode->state->g + 1);
+        Node* childNode = new Node(p, parentNode);
+        unvisited.push(childNode);
+        tempData = data;
     }
 
     /* Move E space up if possible. */
     if(positionOfEmpty > 3) {
         tempData[positionOfEmpty] = tempData[positionOfEmpty - 3];
         tempData[positionOfEmpty - 3] = 'E';
-
+        
+        Puzzle* p = new Puzzle(tempData, parentNode->state->g + 1);
+        Node* childNode = new Node(p, parentNode);
+        unvisited.push(childNode);
         tempData = data;
     }
 
@@ -59,9 +66,9 @@ void Solver::ExpandNode() {
     if(positionOfEmpty < 7) {
         tempData[positionOfEmpty] = tempData[positionOfEmpty + 3];
         tempData[positionOfEmpty + 3] = 'E';
- /*
-        Puzzle p(tempData);
-        Node childNode(p, parentNode);
-        unvisited.push(childNode); /*/
+        
+        Puzzle* p = new Puzzle(tempData, parentNode->state->g + 1);
+        Node* childNode = new Node(p, parentNode);
+        unvisited.push(childNode);
     }
 }

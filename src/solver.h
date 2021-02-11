@@ -11,7 +11,7 @@
 class Solver {
 public:
     std::set<std::string> visited;
-    std::priority_queue<Node> unvisited;
+    std::priority_queue<Node*> unvisited;
 
     Solver(Puzzle* start);
 

@@ -27,6 +27,7 @@ int main() {
 
         if(s.HasSolution()) {
             s.ExpandNode();
+            std::cout << s.unvisited.top()->state->h << "\n";
         }
         else std::cout << "No solution\n\n";
     }
