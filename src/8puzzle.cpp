@@ -14,7 +14,7 @@ int main() {
     int numPuzzles;
     inputFile >> numPuzzles;
     
-    for(int i = 0; i < 3; i++) {
+    for(int i = 0; i < numPuzzles; i++) {
         std::string puzzleData = "         ";
         std::cout << "Puzzle #" << i + 1 << ":\n";
         for (int j = 0; j < 9; j++) {
@@ -28,7 +28,7 @@ int main() {
         if(s.HasSolution()) {
             s.SolvePuzzle();
         }
-        else std::cout << "No solution\n\n";
+        else std::cout << "No Solution\n\n";
     }
 
     inputFile.close();

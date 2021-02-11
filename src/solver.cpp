@@ -1,8 +1,9 @@
 #include "solver.h"
+#include <stack>
 #include <iostream>
 
 Solver::Solver(Puzzle* start) {
-    Node* nodeStart = new Node(start, NULL);
+    Node* nodeStart = new Node(start, NULL, 'S');
     unvisited.push(nodeStart);
 }
 
@@ -37,7 +38,7 @@ void Solver::ExpandNode() {
 
         if(visited.find(tempData) == visited.end()) {
             Puzzle* p = new Puzzle(tempData, parentNode->state->g + 1);
-            Node* childNode = new Node(p, parentNode);
+            Node* childNode = new Node(p, parentNode, 'R');
             unvisited.push(childNode);
         }
         
@@ -51,7 +52,7 @@ void Solver::ExpandNode() {
         
         if(visited.find(tempData) == visited.end()) {
             Puzzle* p = new Puzzle(tempData, parentNode->state->g + 1);
-            Node* childNode = new Node(p, parentNode);
+            Node* childNode = new Node(p, parentNode, 'L');
             unvisited.push(childNode);
         }
         
@@ -65,7 +66,7 @@ void Solver::ExpandNode() {
         
         if(visited.find(tempData) == visited.end()) {
             Puzzle* p = new Puzzle(tempData, parentNode->state->g + 1);
-            Node* childNode = new Node(p, parentNode);
+            Node* childNode = new Node(p, parentNode, 'D');
             unvisited.push(childNode);
         }
         
@@ -79,23 +80,32 @@ void Solver::ExpandNode() {
         
         if(visited.find(tempData) == visited.end()) {
             Puzzle* p = new Puzzle(tempData, parentNode->state->g + 1);
-            Node* childNode = new Node(p, parentNode);
+            Node* childNode = new Node(p, parentNode, 'U');
             unvisited.push(childNode);
         }
     }
 }
 
 void Solver::SolvePuzzle() {
-    int i = 0;
-
     while(unvisited.top()->state->state != "12345678E") {
         ExpandNode();
-        i++;
     }
 
     Node* pathNode = unvisited.top();
+    std::stack<char> moveOrder;
+    int i = 0;
     while(pathNode->parent != NULL) {
-        std::cout << pathNode->parent->state->state << "\n";
+        moveOrder.push(pathNode->direction);
         pathNode = pathNode->parent;
+        i++;
     }
+
+    std::cout << "Solution (" << i << " moves): [";
+
+    while(moveOrder.size() > 1) {
+        std::cout << moveOrder.top() << ", ";
+        moveOrder.pop();
+    }
+
+    std::cout << moveOrder.top() << "]\n\n";
 }
