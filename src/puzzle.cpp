@@ -9,18 +9,15 @@ Puzzle::Puzzle(std::string s, int g) {
 int Puzzle::TotalManhattanDistance() {
     int sum = 0;
 
-    for(int i = 0; i < 9; i++) {
+    for(int i = 0; i < 9; i++)
         sum += SingleManhattanDistance(i);
-    }
 
     return sum;
     }
 
 int Puzzle::SingleManhattanDistance(int position) {
-    if(state[position] == 'E') {
-        return 0;
-    }
-
+    if(state[position] == 'E') return 0;
+    
     int sum = 0;
 
     /* Convert from ASCII character to integer equivalent and increment position
@@ -38,7 +35,8 @@ int Puzzle::SingleManhattanDistance(int position) {
 
         /* Move left or right */
         else {
-            if(position > piece) position--;
+            // flatten the possibilities to 1, 2, or 3 in order
+            if((position + 2)%3 > (piece+2)%3) position--;
             else position++;
             sum++;
         }
@@ -48,11 +46,9 @@ int Puzzle::SingleManhattanDistance(int position) {
 }
 
 int Puzzle::FindPiecePosition(char p) {
-    for(int i = 0; i < 9; i++) {
-        if(state[i] == p) {
+    for(int i = 0; i < 9; i++)
+        if(state[i] == p)
             return i;
-        }
-    }
 
     return -1;
 }

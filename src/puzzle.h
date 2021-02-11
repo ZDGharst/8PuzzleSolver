@@ -1,7 +1,7 @@
-#include <string>
-
 #ifndef PUZZLE_H
 #define PUZZLE_H
+
+#include <string>
 
 class Puzzle {
 public:
