@@ -16,15 +16,17 @@ int Puzzle::TotalManhattanDistance() {
     return sum;
     }
 
-/* Calculate the manhattan distance of a single position in the puzzle data array (from 0 to 8) */
-int Puzzle::SingleManhattanDistance(int p) {
-    if(state[p] == 'E') {
+int Puzzle::SingleManhattanDistance(int position) {
+    if(state[position] == 'E') {
         return 0;
     }
 
     int sum = 0;
-    int piece = state[p] - 48; // Convert from ASCII char to integer equivalent
-    int position = p + 1;
+
+    /* Convert from ASCII character to integer equivalent and increment position
+     * by 1 to correct for 0-indexed arrays. */
+    int piece = state[position] - 48;
+    position++;
 
     while(piece != position) {
         /* Move up or down */
@@ -45,8 +47,7 @@ int Puzzle::SingleManhattanDistance(int p) {
     return sum;
 }
 
-/* Find where a piece is in the puzzle data array by its value */
-int Puzzle::FindPiece(char p) {
+int Puzzle::FindPiecePosition(char p) {
     for(int i = 0; i < 9; i++) {
         if(state[i] == p) {
             return i;

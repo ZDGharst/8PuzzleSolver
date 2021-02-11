@@ -3,7 +3,7 @@
 
 int main() {
     Puzzle p("31246587E");
-    std::cout << p.TotalManhattanDistance() << '\n';
+    std::cout << p.h << '\n';
 
     return 0;
 }

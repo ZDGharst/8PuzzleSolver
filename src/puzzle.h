@@ -11,8 +11,8 @@ public:
     Puzzle(std::string state, int g = 0);
 
     int TotalManhattanDistance();
-    int SingleManhattanDistance(int p);
-    int FindPiece(char p);
+    int SingleManhattanDistance(int position);
+    int FindPiecePosition(char piece);
 };
 
 #endif // PUZZLE_H
