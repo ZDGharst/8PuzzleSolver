@@ -23,7 +23,6 @@ bool Solver::HasSolution() {
 void Solver::ExpandNode() {
     Node* parentNode = unvisited.top();
     std::string data = parentNode->state->state;
-    std::cout << data << "\n";
     int positionOfEmpty = parentNode->state->FindPiecePosition('E');
 
     /* Remove from queue and insert into visited set. */
@@ -88,18 +87,15 @@ void Solver::ExpandNode() {
 
 void Solver::SolvePuzzle() {
     int i = 0;
-    try {
+
     while(unvisited.top()->state->state != "12345678E") {
         ExpandNode();
         i++;
-    } }
-    catch(...) {
-
     }
 
-    // for(auto item : visited) {
-    //     std::cout << item << '\n';
-    // }
-
-    std::cout << "zomfg solution found!!!\n";
+    Node* pathNode = unvisited.top();
+    while(pathNode->parent != NULL) {
+        std::cout << pathNode->parent->state->state << "\n";
+        pathNode = pathNode->parent;
+    }
 }
