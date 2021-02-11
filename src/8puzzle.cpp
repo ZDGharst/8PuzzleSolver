@@ -14,7 +14,7 @@ int main() {
     int numPuzzles;
     inputFile >> numPuzzles;
     
-    for(int i = 0; i < numPuzzles; i++) {
+    for(int i = 0; i < 3; i++) {
         std::string puzzleData = "         ";
         std::cout << "Puzzle #" << i + 1 << ":\n";
         for (int j = 0; j < 9; j++) {
@@ -22,13 +22,13 @@ int main() {
             std::cout << puzzleData[j] << ' ';
             if ((j + 1) % 3 == 0) { std::cout << '\n'; }
         }
-        Puzzle p(puzzleData);
+        Puzzle* p = new Puzzle(puzzleData);
         Solver s(p);
 
-        if(s.HasSolution()) std::cout << "Solveable";
-        else std::cout << "No solution";
-
-        std::cout << "\nManhattan Distance: " << p.h << "\n\n";
+        if(s.HasSolution()) {
+            s.ExpandNode();
+        }
+        else std::cout << "No solution\n\n";
     }
 
     inputFile.close();

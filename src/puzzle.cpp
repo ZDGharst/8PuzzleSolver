@@ -37,7 +37,7 @@ int Puzzle::SingleManhattanDistance(int position) {
         else {
             /* Flatten the possibilities to 1, 2, or 3 in order in order to compare which column.
              * Otherwise, 4 > 3 would result in 4 moving right when it should move left. */
-            if((position + 2)%3 > (piece+2)%3) position--;
+            if((position + 2) % 3 > (piece + 2) % 3) position--;
             else position++;
             sum++;
         }

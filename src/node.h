@@ -8,7 +8,7 @@ public:
     Puzzle* state;
     Node* parent;
     
-    Node(Puzzle& s, Node* p);
+    Node(Puzzle* s, Node* p);
 
     bool operator<(const Node& node2) const;
 };

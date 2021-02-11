@@ -13,7 +13,7 @@ public:
     std::set<std::string> visited;
     std::priority_queue<Node> unvisited;
 
-    Solver(Puzzle& start);
+    Solver(Puzzle* start);
 
     bool HasSolution();
     void ExpandNode();
