@@ -4,14 +4,23 @@
 #include <set>
 #include <queue>
 #include <string>
+#include <iostream>
 
 #include "puzzle.h"
 #include "node.h"
 
+class MyCompare {
+public:
+  template<typename T>
+  bool operator()(T *a, T *b) {
+    return a->state->g + a->state->h > b->state->g + b->state->h;
+  }
+};
+
 class Solver {
 public:
     std::set<std::string> visited;
-    std::priority_queue<Node*> unvisited;
+    std::priority_queue<Node*, std::vector<Node*>, MyCompare> unvisited;
 
     Solver(Puzzle* start);
 

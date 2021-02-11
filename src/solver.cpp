@@ -1,4 +1,5 @@
 #include "solver.h"
+#include <iostream>
 
 Solver::Solver(Puzzle* start) {
     Node* nodeStart = new Node(start, NULL);
@@ -22,6 +23,7 @@ bool Solver::HasSolution() {
 void Solver::ExpandNode() {
     Node* parentNode = unvisited.top();
     std::string data = parentNode->state->state;
+    std::cout << data << "\n";
     int positionOfEmpty = parentNode->state->FindPiecePosition('E');
 
     /* Remove from queue and insert into visited set. */
@@ -33,10 +35,13 @@ void Solver::ExpandNode() {
     if(positionOfEmpty % 3 != 0) {
         tempData[positionOfEmpty] = tempData[positionOfEmpty - 1];
         tempData[positionOfEmpty - 1] = 'E';
+
+        if(visited.find(tempData) == visited.end()) {
+            Puzzle* p = new Puzzle(tempData, parentNode->state->g + 1);
+            Node* childNode = new Node(p, parentNode);
+            unvisited.push(childNode);
+        }
         
-        Puzzle* p = new Puzzle(tempData, parentNode->state->g + 1);
-        Node* childNode = new Node(p, parentNode);
-        unvisited.push(childNode);
         tempData = data;
     }
 
@@ -45,9 +50,12 @@ void Solver::ExpandNode() {
         tempData[positionOfEmpty] = tempData[positionOfEmpty + 1];
         tempData[positionOfEmpty + 1] = 'E';
         
-        Puzzle* p = new Puzzle(tempData, parentNode->state->g + 1);
-        Node* childNode = new Node(p, parentNode);
-        unvisited.push(childNode);
+        if(visited.find(tempData) == visited.end()) {
+            Puzzle* p = new Puzzle(tempData, parentNode->state->g + 1);
+            Node* childNode = new Node(p, parentNode);
+            unvisited.push(childNode);
+        }
+        
         tempData = data;
     }
 
@@ -56,9 +64,12 @@ void Solver::ExpandNode() {
         tempData[positionOfEmpty] = tempData[positionOfEmpty - 3];
         tempData[positionOfEmpty - 3] = 'E';
         
-        Puzzle* p = new Puzzle(tempData, parentNode->state->g + 1);
-        Node* childNode = new Node(p, parentNode);
-        unvisited.push(childNode);
+        if(visited.find(tempData) == visited.end()) {
+            Puzzle* p = new Puzzle(tempData, parentNode->state->g + 1);
+            Node* childNode = new Node(p, parentNode);
+            unvisited.push(childNode);
+        }
+        
         tempData = data;
     }
 
@@ -67,8 +78,28 @@ void Solver::ExpandNode() {
         tempData[positionOfEmpty] = tempData[positionOfEmpty + 3];
         tempData[positionOfEmpty + 3] = 'E';
         
-        Puzzle* p = new Puzzle(tempData, parentNode->state->g + 1);
-        Node* childNode = new Node(p, parentNode);
-        unvisited.push(childNode);
+        if(visited.find(tempData) == visited.end()) {
+            Puzzle* p = new Puzzle(tempData, parentNode->state->g + 1);
+            Node* childNode = new Node(p, parentNode);
+            unvisited.push(childNode);
+        }
     }
+}
+
+void Solver::SolvePuzzle() {
+    int i = 0;
+    try {
+    while(unvisited.top()->state->state != "12345678E") {
+        ExpandNode();
+        i++;
+    } }
+    catch(...) {
+
+    }
+
+    // for(auto item : visited) {
+    //     std::cout << item << '\n';
+    // }
+
+    std::cout << "zomfg solution found!!!\n";
 }

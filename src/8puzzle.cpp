@@ -26,8 +26,7 @@ int main() {
         Solver s(p);
 
         if(s.HasSolution()) {
-            s.ExpandNode();
-            std::cout << s.unvisited.top()->state->h << "\n";
+            s.SolvePuzzle();
         }
         else std::cout << "No solution\n\n";
     }
