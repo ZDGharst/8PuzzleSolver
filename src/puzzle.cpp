@@ -1,12 +1,12 @@
 #include "puzzle.h"
 
-Puzzle::Puzzle(std::string s, int g = 0) {
+Puzzle::Puzzle(std::string s, int g) {
     state = s;
-    this.g = g;
+    this->g = g;
     h = TotalManhattanDistance();
 }
 
-int TotalManhattanDistance() {
+int Puzzle::TotalManhattanDistance() {
     int sum = 0;
     for (int i = 1; i < 9; i++) {
         sum += SingleManhattanDistance(i);
@@ -14,16 +14,16 @@ int TotalManhattanDistance() {
     return sum;
 }
 
-int SingleManhattanDistance(int p) {
+int Puzzle::SingleManhattanDistance(int p) {
     return 0;
 }
 
-int FindPiece(int p) {
+int Puzzle::FindPiece(char p) {
     for (int i = 0; i < 9; i++) {
         if(state[i] == p) {
             return i;
         }
     }
-    
+
     return -1;
 }

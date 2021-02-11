@@ -4,6 +4,7 @@
 #define PUZZLE_H
 
 class Puzzle {
+public:
     std::string state;
     int g, h;
     
@@ -11,7 +12,7 @@ class Puzzle {
 
     int TotalManhattanDistance();
     int SingleManhattanDistance(int p);
-    int FindPiece(int p);
-}
+    int FindPiece(char p);
+};
 
 #endif // PUZZLE_H
