@@ -60,7 +60,7 @@ void Solver::ExpandNode() {
     }
 
     /* Move E space up if possible. */
-    if(positionOfEmpty > 3) {
+    if(positionOfEmpty > 2) {
         tempData[positionOfEmpty] = tempData[positionOfEmpty - 3];
         tempData[positionOfEmpty - 3] = 'E';
         
@@ -74,7 +74,7 @@ void Solver::ExpandNode() {
     }
 
     /* Move E space down if possible. */
-    if(positionOfEmpty < 7) {
+    if(positionOfEmpty < 6) {
         tempData[positionOfEmpty] = tempData[positionOfEmpty + 3];
         tempData[positionOfEmpty + 3] = 'E';
         
