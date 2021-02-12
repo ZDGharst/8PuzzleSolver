@@ -5,7 +5,7 @@
 
 int main() {
     std::ifstream inputFile;
-    inputFile.open("input.txt");
+    inputFile.open("data/input.txt");
 
     if(!inputFile) {
         return -1;
