@@ -7,6 +7,8 @@ Type "make" in the terminal in the project folder to compile and run the project
 
 Credit goes to [Geeks for Geeks](https://www.geeksforgeeks.org/check-instance-8-puzzle-solvable/) for their instructions on how to calculate the possibility of a puzzle being unsolvable. There are 9! possible states, but only 9!/2 solvable states.
 
+Project by Zach Gharst
+
 ## Optimizations:
 I originally calculated the manhattan distance for a single piece using this method:
 
