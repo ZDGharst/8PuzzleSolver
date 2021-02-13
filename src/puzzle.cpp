@@ -17,33 +17,14 @@ int Puzzle::TotalManhattanDistance() {
 
 int Puzzle::SingleManhattanDistance(int position) {
     if(state[position] == 'E') return 0;
-    
-    int sum = 0;
 
     /* Convert from ASCII character to integer equivalent and increment position
      * by 1 to correct for 0-indexed arrays. */
-    int piece = state[position] - 48;
-    position++;
+    int pieceValue = state[position] - 48;
+    int rowDifference = abs((pieceValue - 1) / 3 - position / 3);
+    int columnDifference = abs((pieceValue - 1) % 3 - position % 3);
 
-    while(piece != position) {
-        /* Move up or down */
-        if((piece - position) % 3 == 0) {
-            if(position > piece) position -= 3;
-            else position += 3;
-            sum++;
-        }
-
-        /* Move left or right */
-        else {
-            /* Flatten the possibilities to 1, 2, or 3 in order in order to compare which column.
-             * Otherwise, 4 > 3 would result in 4 moving right when it should move left. */
-            if((position + 2) % 3 > (piece + 2) % 3) position--;
-            else position++;
-            sum++;
-        }
-    }
-
-    return sum;
+    return rowDifference + columnDifference;
 }
 
 int Puzzle::FindPiecePosition(char p) {
