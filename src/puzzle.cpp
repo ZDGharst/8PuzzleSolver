@@ -13,7 +13,7 @@ int Puzzle::TotalManhattanDistance() {
         sum += SingleManhattanDistance(i);
 
     return sum;
-    }
+}
 
 int Puzzle::SingleManhattanDistance(int position) {
     if(state[position] == 'E') return 0;
