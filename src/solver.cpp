@@ -13,12 +13,12 @@ Solver::Solver(Puzzle* start) {
 
 Solver::~Solver() {
     while(!visited.empty()) {
-        delete[] visited.front();
+        delete visited.front();
         visited.pop();
     }
     
     while(!unvisited.empty()) {
-        delete[] unvisited.top();
+        delete unvisited.top();
         unvisited.pop();
     }
 }
