@@ -11,16 +11,17 @@ bool Solver::HasSolution() {
     std::string data = unvisited.top()->state->state;
     int inversions = 0;
 
-    for(int i = 0; i < 9; i++)
+    for(int i = 0; i < 8; i++)
         for(int j = i + 1; j < 9; j++)
-            if(data[i] > data[j] && data[i] != 'E' && data[j] != 'E')
+        /* It's okay if data[j] is E because E is always greater than the numbers */
+            if(data[i] != 'E' && data[i] > data[j])
                 inversions++;
 
-    if(inversions % 2 == 0)
-        return true;
-    return false;
+    return (inversions % 2 == 0);
 }
 
+/* This could result in a faster solve if we were to check not only the visited nodes
+but also the unvisited nodes before generating new children. */
 void Solver::ExpandNode() {
     Node* parentNode = unvisited.top();
     std::string data = parentNode->state->state;
@@ -107,5 +108,5 @@ void Solver::SolvePuzzle() {
         moveOrder.pop();
     }
 
-    std::cout << moveOrder.top() << "]\n\n";
+    std::cout << moveOrder.top() << "]\nStates tested: " << visited.size() + 1 << "\n\n";
 }
