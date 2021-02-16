@@ -7,6 +7,7 @@ Solver::Solver(Puzzle* start) {
     unvisited.push(nodeStart);
 }
 
+/* A puzzle has a solution if the number of times a larger piece has been moved compared to a smaller piece is even (or if divisible by the size of puzzle-1). */
 bool Solver::HasSolution() {
     std::string data = unvisited.top()->state->state;
     int inversions = 0;
@@ -39,7 +40,7 @@ void Solver::ExpandNode() {
 
         if(visited.find(tempData) == visited.end()) {
             Puzzle* p = new Puzzle(tempData, parentNode->state->g + 1);
-            Node* childNode = new Node(p, parentNode, 'R');
+            Node* childNode = new Node(p, parentNode, tempData[positionOfEmpty]);
             unvisited.push(childNode);
         }
         
@@ -53,7 +54,7 @@ void Solver::ExpandNode() {
         
         if(visited.find(tempData) == visited.end()) {
             Puzzle* p = new Puzzle(tempData, parentNode->state->g + 1);
-            Node* childNode = new Node(p, parentNode, 'L');
+            Node* childNode = new Node(p, parentNode, tempData[positionOfEmpty]);
             unvisited.push(childNode);
         }
         
@@ -67,7 +68,7 @@ void Solver::ExpandNode() {
         
         if(visited.find(tempData) == visited.end()) {
             Puzzle* p = new Puzzle(tempData, parentNode->state->g + 1);
-            Node* childNode = new Node(p, parentNode, 'D');
+            Node* childNode = new Node(p, parentNode, tempData[positionOfEmpty]);
             unvisited.push(childNode);
         }
         
@@ -81,7 +82,7 @@ void Solver::ExpandNode() {
         
         if(visited.find(tempData) == visited.end()) {
             Puzzle* p = new Puzzle(tempData, parentNode->state->g + 1);
-            Node* childNode = new Node(p, parentNode, 'U');
+            Node* childNode = new Node(p, parentNode, tempData[positionOfEmpty]);
             unvisited.push(childNode);
         }
     }
