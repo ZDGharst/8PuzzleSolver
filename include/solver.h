@@ -8,18 +8,18 @@
 #include "puzzle.h"
 #include "node.h"
 
-class MyCompare {
+class SolverCompare {
 public:
-  template<typename T>
-  bool operator()(T *a, T *b) {
-    return (a->state->g + a->state->h) > (b->state->g + b->state->h);
-  }
+    bool operator()(Node *left, Node *right) {
+        return (left->state->g + left->state->h) > (right->state->g + right->state->h);
+    }
 };
 
 class Solver {
 public:
-    std::set<std::string> visited;
-    std::priority_queue<Node*, std::vector<Node*>, MyCompare> unvisited;
+    std::set<std::string> generated;
+    std::priority_queue<Node*, std::vector<Node*>, SolverCompare> unvisited;
+    int statesTested;
 
     Solver(Puzzle* start);
 

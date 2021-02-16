@@ -1,10 +1,14 @@
 #include "solver.h"
 #include <stack>
 #include <iostream>
+#include <cmath>
+#include <iomanip>
 
 Solver::Solver(Puzzle* start) {
     Node* nodeStart = new Node(start, NULL, 'S');
     unvisited.push(nodeStart);
+    generated.insert(start->state);
+    statesTested = 0;
 }
 
 /* A puzzle has a solution if the number of times a larger piece has been moved compared to a smaller piece is even (or if divisible by the size of puzzle-1). */
@@ -30,7 +34,8 @@ void Solver::ExpandNode() {
 
     /* Remove from queue and insert into visited set. */
     unvisited.pop();
-    visited.insert(data);
+    generated.insert(data);
+    statesTested++;
 
     /* Move E space left if possible. */
     std::string tempData = data;
@@ -38,10 +43,11 @@ void Solver::ExpandNode() {
         tempData[positionOfEmpty] = tempData[positionOfEmpty - 1];
         tempData[positionOfEmpty - 1] = 'E';
 
-        if(visited.find(tempData) == visited.end()) {
+        if(generated.find(tempData) == generated.end()) {
             Puzzle* p = new Puzzle(tempData, parentNode->state->g + 1);
             Node* childNode = new Node(p, parentNode, tempData[positionOfEmpty]);
             unvisited.push(childNode);
+            generated.insert(tempData);
         }
         
         tempData = data;
@@ -52,10 +58,11 @@ void Solver::ExpandNode() {
         tempData[positionOfEmpty] = tempData[positionOfEmpty + 1];
         tempData[positionOfEmpty + 1] = 'E';
         
-        if(visited.find(tempData) == visited.end()) {
+        if(generated.find(tempData) == generated.end()) {
             Puzzle* p = new Puzzle(tempData, parentNode->state->g + 1);
             Node* childNode = new Node(p, parentNode, tempData[positionOfEmpty]);
             unvisited.push(childNode);
+            generated.insert(tempData);
         }
         
         tempData = data;
@@ -66,10 +73,11 @@ void Solver::ExpandNode() {
         tempData[positionOfEmpty] = tempData[positionOfEmpty - 3];
         tempData[positionOfEmpty - 3] = 'E';
         
-        if(visited.find(tempData) == visited.end()) {
+        if(generated.find(tempData) == generated.end()) {
             Puzzle* p = new Puzzle(tempData, parentNode->state->g + 1);
             Node* childNode = new Node(p, parentNode, tempData[positionOfEmpty]);
             unvisited.push(childNode);
+            generated.insert(tempData);
         }
         
         tempData = data;
@@ -80,10 +88,11 @@ void Solver::ExpandNode() {
         tempData[positionOfEmpty] = tempData[positionOfEmpty + 3];
         tempData[positionOfEmpty + 3] = 'E';
         
-        if(visited.find(tempData) == visited.end()) {
+        if(generated.find(tempData) == generated.end()) {
             Puzzle* p = new Puzzle(tempData, parentNode->state->g + 1);
             Node* childNode = new Node(p, parentNode, tempData[positionOfEmpty]);
             unvisited.push(childNode);
+            generated.insert(tempData);
         }
     }
 }
@@ -95,19 +104,20 @@ void Solver::SolvePuzzle() {
 
     Node* pathNode = unvisited.top();
     std::stack<char> moveOrder;
-    int i = 0;
+    int movesNeeded = 0;
     while(pathNode->parent != NULL) {
         moveOrder.push(pathNode->direction);
         pathNode = pathNode->parent;
-        i++;
+        movesNeeded++;
     }
 
-    std::cout << "Solution (" << i << " moves): [";
+    std::cout << "Solution (" << movesNeeded << " moves): [";
 
     while(moveOrder.size() > 1) {
         std::cout << moveOrder.top() << ", ";
         moveOrder.pop();
     }
 
-    std::cout << moveOrder.top() << "]\nStates tested: " << visited.size() + 1 << "\n\n";
+    std::cout << moveOrder.top() << "]\nStates tested: " << statesTested << "\nStates generated: " << generated.size() + 1
+    << "\nEstimated graph nodes generated for a blind iterated approach (without hueristic): " << std::fixed << std::setprecision(0) << std::pow(24/9, movesNeeded) << "\n\n";
 }
