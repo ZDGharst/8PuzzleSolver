@@ -18,11 +18,13 @@ public:
 class Solver {
 public:
     std::set<std::string> generated;
+    std::queue<Node*> visited;
     std::priority_queue<Node*, std::vector<Node*>, SolverCompare> unvisited;
     int statesTested;
 
     Solver(Puzzle* start);
-
+    ~Solver();
+    
     bool HasSolution();
     void ExpandNode();
     void SolvePuzzle();

@@ -11,6 +11,18 @@ Solver::Solver(Puzzle* start) {
     statesTested = 0;
 }
 
+Solver::~Solver() {
+    while(!visited.empty()) {
+        delete[] visited.front();
+        visited.pop();
+    }
+    
+    while(!unvisited.empty()) {
+        delete[] unvisited.top();
+        unvisited.pop();
+    }
+}
+
 /* A puzzle has a solution if the number of times a larger piece has been moved compared to a smaller piece is even (or if divisible by the size of puzzle-1). */
 bool Solver::HasSolution() {
     std::string data = unvisited.top()->state->state;
@@ -34,6 +46,7 @@ void Solver::ExpandNode() {
 
     /* Remove from queue and insert into visited set. */
     unvisited.pop();
+    visited.push(parentNode);
     generated.insert(data);
     statesTested++;
 
