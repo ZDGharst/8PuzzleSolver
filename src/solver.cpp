@@ -132,5 +132,5 @@ void Solver::SolvePuzzle() {
     }
 
     std::cout << moveOrder.top() << "]\nStates tested: " << statesTested << "\nStates generated: " << generated.size() + 1
-    << "\nEstimated graph nodes generated for a blind iterated approach (without hueristic): " << std::fixed << std::setprecision(0) << std::pow(24/9, movesNeeded) << "\n\n";
+    << "\nEstimated graph nodes generated for a blind iterated approach (without hueristic): " << std::fixed << std::setprecision(0) << std::pow(24/9, movesNeeded) << "\n";
 }
