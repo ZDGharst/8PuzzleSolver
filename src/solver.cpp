@@ -1,9 +1,5 @@
 #include "solver.h"
 
-#include <iostream>
-#include <cmath>
-#include <iomanip>
-
 Solver::Solver(Puzzle* start) {
     Node* nodeStart = new Node(start, NULL, 'S');
     unvisited.push(nodeStart);
@@ -112,6 +108,9 @@ void Solver::ExpandNode() {
 }
 
 void Solver::SolvePuzzle() {
+    if(!HasSolution()) {
+        return;
+    }
     while(unvisited.top()->state->state != "12345678E") {
         ExpandNode();
     }
@@ -160,6 +159,7 @@ std::string Solver::PrintSolution(int puzzleNum) {
         solutionString += std::to_string(std::chrono::duration <double, std::milli> (diff).count());
         solutionString += " ms\n\n";
     }
+     
     else {
         solutionString += "No Solution\n\n";
     }
