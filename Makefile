@@ -1,11 +1,11 @@
-run_8puzzle_program:
+compile_and_run:
 	g++ -o bin/8puzzle.o -I include/ src/*.cpp
 	./bin/8puzzle.o
 	
 profiler: diagnostics strace
 
-diagnostics: run_8puzzle_program
+diagnostics: ./bin/8puzzle.o
 	/usr/bin/time -v -p -o profile/system.log ./bin/8puzzle.o
 	
-strace: run_8puzzle_program
+strace: ./bin/8puzzle.o
 	strace -o profile/strace.log ./bin/8puzzle.o
