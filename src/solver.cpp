@@ -1,5 +1,5 @@
 #include "solver.h"
-#include <stack>
+
 #include <iostream>
 #include <cmath>
 #include <iomanip>
@@ -9,6 +9,7 @@ Solver::Solver(Puzzle* start) {
     unvisited.push(nodeStart);
     generated.insert(start->state);
     statesTested = 0;
+    startString = start->state;
 }
 
 Solver::~Solver() {
@@ -116,21 +117,52 @@ void Solver::SolvePuzzle() {
     }
 
     Node* pathNode = unvisited.top();
-    std::stack<char> moveOrder;
-    int movesNeeded = 0;
     while(pathNode->parent != NULL) {
         moveOrder.push(pathNode->direction);
         pathNode = pathNode->parent;
-        movesNeeded++;
+    }
+}
+
+std::string Solver::PrintSolution(int puzzleNum) {
+    std::string solutionString = "Puzzle";
+
+    if(puzzleNum != -1) {
+        solutionString += " #";
+        solutionString += std::to_string(puzzleNum);
     }
 
-    std::cout << "Solution (" << movesNeeded << " moves): [";
+    solutionString += "\n";
 
-    while(moveOrder.size() > 1) {
-        std::cout << moveOrder.top() << ", ";
-        moveOrder.pop();
+    for(int piece = 0; piece < 9; piece++) {
+        solutionString += startString[piece];
+        solutionString += ((piece + 1) % 3 == 0) ? "\n" : " ";
     }
 
-    std::cout << moveOrder.top() << "]\nStates tested: " << statesTested << "\nStates generated: " << generated.size() + 1
-    << "\nEstimated graph nodes generated for a blind iterated approach (without hueristic): " << std::fixed << std::setprecision(0) << std::pow(24/9, movesNeeded) << "\n";
+    if(moveOrder.size() > 0) {
+        solutionString += "Solution (";
+        solutionString += std::to_string(moveOrder.size());
+        solutionString += " moves): [";
+
+        while(moveOrder.size() > 1) {
+            solutionString += moveOrder.top();
+            solutionString += ", ";
+            moveOrder.pop();
+        }
+
+        auto diff = std::chrono::steady_clock::now() - startTime;
+
+        solutionString += moveOrder.top();
+        solutionString += "]\nStates tested: ";
+        solutionString += std::to_string(statesTested);
+        solutionString += "\nStates generated: ";
+        solutionString += std::to_string(generated.size() + 1);
+        solutionString += "\nElapsed time: ";
+        solutionString += std::to_string(std::chrono::duration <double, std::milli> (diff).count());
+        solutionString += " ms\n\n";
+    }
+    else {
+        solutionString += "No Solution\n\n";
+    }
+
+    return solutionString;
 }

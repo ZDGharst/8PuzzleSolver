@@ -4,6 +4,8 @@
 #include <set>
 #include <queue>
 #include <string>
+#include <stack>
+#include <chrono>
 
 #include "puzzle.h"
 #include "node.h"
@@ -20,7 +22,10 @@ public:
     std::set<std::string> generated;
     std::queue<Node*> visited;
     std::priority_queue<Node*, std::vector<Node*>, SolverCompare> unvisited;
+    std::stack<char> moveOrder;
     int statesTested;
+    std::string startString;
+    std::chrono::time_point<std::chrono::steady_clock> startTime = std::chrono::steady_clock::now();
 
     Solver(Puzzle* start);
     ~Solver();
@@ -28,6 +33,7 @@ public:
     bool HasSolution();
     void ExpandNode();
     void SolvePuzzle();
+    std::string PrintSolution(int puzzleNum = -1);
 };
 
 #endif // SOLVER_H
